@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>给冉宝的100000个亲亲 💕</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    body {
+      background: linear-gradient(135deg, #ffd1f4 0%, #ffafcc 50%, #ffb3d9 100%);
+      font-family: 'ZCOOL KuaiLe', 'Ma Shan Zheng', cursive;
+    }
+
+    .container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 浮动的背景爱心 */
+    .bg-hearts {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .bg-heart {
+      position: absolute;
+      font-size: 30px;
+      opacity: 0.15;
+      animation: floatUp 8s linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.15;
+      }
+      90% {
+        opacity: 0.15;
+      }
+      100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* 中心大爱心 */
+    .big-heart {
+      font-size: min(180px, 40vw);
+      animation: pulse 1.5s ease-in-out infinite;
+      text-shadow: 
+        0 0 40px rgba(255, 215, 0, 0.8),
+        0 0 80px rgba(255, 105, 180, 0.5),
+        0 0 120px rgba(255, 20, 147, 0.3);
+      z-index: 10;
+      cursor: pointer;
+      user-select: none;
+      filter: drop-shadow(0 10px 30px rgba(255, 105, 180, 0.5));
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.3);
+      }
+    }
+
+    /* 标题 */
+    .title {
+      position: absolute;
+      top: 8%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: min(28px, 6vw);
+      color: #ff1493;
+      text-shadow: 
+        2px 2px 0 #fff,
+        -2px -2px 0 #fff,
+        2px -2px 0 #fff,
+        -2px 2px 0 #fff,
+        0 0 20px rgba(255, 105, 180, 0.8);
+      white-space: nowrap;
+      z-index: 100;
+      animation: titleGlow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes titleGlow {
+      from {
+        text-shadow: 
+          2px 2px 0 #fff,
+          -2px -2px 0 #fff,
+          2px -2px 0 #fff,
+          -2px 2px 0 #fff,
+          0 0 20px rgba(255, 105, 180, 0.8);
+      }
+      to {
+        text-shadow: 
+          2px 2px 0 #fff,
+          -2px -2px 0 #fff,
+          2px -2px 0 #fff,
+          -2px 2px 0 #fff,
+          0 0 40px rgba(255, 215, 0, 1),
+          0 0 60px rgba(255, 105, 180, 0.8);
+      }
+    }
+
+    /* 飞舞的冉宝文字 */
+    .ranbao {
+      position: absolute;
+      font-size: min(48px, 12vw);
+      font-weight: bold;
+      pointer-events: none;
+      z-index: 50;
+      text-shadow: 
+        0 0 20px #fff,
+        0 0 40px currentColor,
+        0 0 60px currentColor;
+      animation: fly 2.5s linear forwards;
+    }
+
+    @keyframes fly {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) rotate(0deg) scale(0.5);
+      }
+      20% {
+        opacity: 1;
+        transform: translate(calc(var(--x) * 0.2), calc(var(--y) * 0.2)) rotate(144deg) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--x), var(--y)) rotate(720deg) scale(0.8);
+      }
+    }
+
+    /* 爆炸的爱心 */
+    .heart-particle {
+      position: absolute;
+      font-size: min(40px, 10vw);
+      pointer-events: none;
+      z-index: 60;
+      animation: pop 1.2s ease-out forwards;
+    }
+
+    @keyframes pop {
+      0% {
+        transform: translate(0, 0) scale(0) rotate(0deg);
+        opacity: 1;
+      }
+      30% {
+        transform: translate(calc(var(--hx) * 0.3), calc(var(--hy) * 0.3)) scale(1.5) rotate(180deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--hx), var(--hy)) scale(0) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* 点击提示 */
+    .hint {
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: min(16px, 4vw);
+      color: #ff69b4;
+      opacity: 0.8;
+      animation: hintPulse 2s ease-in-out infinite;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    }
+
+    @keyframes hintPulse {
+      0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+      50% { opacity: 1; transform: translateX(-50%) scale(1.05); }
+    }
+
+    /* 计数器 */
+    .counter {
+      position: absolute;
+      bottom: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: min(14px, 3.5vw);
+      color: #ff1493;
+      opacity: 0.7;
+    }
+
+    /* 音乐按钮 */
+    .music-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.8);
+      border: 2px solid #ff69b4;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      z-index: 1000;
+      box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .music-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(255, 105, 180, 0.6);
+    }
+
+    .music-btn.playing {
+      animation: musicPulse 1s ease-in-out infinite;
+    }
+
+    @keyframes musicPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    /* 闪光效果 */
+    .sparkle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: #fff;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: sparkle 0.8s ease-out forwards;
+    }
+
+    @keyframes sparkle {
+      0% {
+        transform: scale(0);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(2);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(0);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="container">
+    <!-- 背景爱心层 -->
+    <div class="bg-hearts" id="bgHearts"></div>
+    
+    <!-- 标题 -->
+    <div class="title">💕 给冉宝的100000个亲亲 💕</div>
+    
+    <!-- 中心大爱心 -->
+    <div class="big-heart" id="bigHeart">❤️</div>
+    
+    <!-- 点击提示 -->
+    <div class="hint">✨ 点击屏幕任意位置送出更多爱心 ✨</div>
+    
+    <!-- 计数器 -->
+    <div class="counter" id="counter">已送出 <span id="count">0</span> 个亲亲</div>
+    
+    <!-- 音乐按钮 -->
+    <button class="music-btn" id="musicBtn" title="播放/暂停音乐">🎵</button>
+  </div>
+
+  <script>
+    // 配置
+    const CONFIG = {
+      colors: ['#ff69b4', '#ff1493', '#ffd700', '#ffc0cb', '#ff6b6b', '#ff85a2', '#ffb6c1'],
+      hearts: ['💛', '💕', '💖', '💗', '💝', '✨', '🌟', '💫', '🥰', '😘', '💋', '❤️', '💓', '💞'],
+      bgHearts: ['💕', '💗', '💖', '❤️', '💓'],
+      autoInterval: 300,
+      heartCount: 15
+    };
+
+    let kissCount = 0;
+    let autoTimer = null;
+    let audio = null;
+    let isPlaying = false;
+
+    const container = document.getElementById('container');
+    const countEl = document.getElementById('count');
+    const musicBtn = document.getElementById('musicBtn');
+    const bgHeartsEl = document.getElementById('bgHearts');
+
+    // 创建背景浮动爱心
+    function createBgHearts() {
+      for (let i = 0; i < 15; i++) {
+        setTimeout(() => {
+          const heart = document.createElement('div');
+          heart.className = 'bg-heart';
+          heart.textContent = CONFIG.bgHearts[Math.floor(Math.random() * CONFIG.bgHearts.length)];
+          heart.style.left = Math.random() * 100 + '%';
+          heart.style.animationDelay = Math.random() * 8 + 's';
+          heart.style.animationDuration = (6 + Math.random() * 4) + 's';
+          bgHeartsEl.appendChild(heart);
+
+          heart.addEventListener('animationiteration', () => {
+            heart.style.left = Math.random() * 100 + '%';
+          });
+        }, i * 500);
+      }
+    }
+
+    // 创建飞舞的"冉宝"文字
+    function createRanbao(centerX, centerY) {
+      const angle = Math.random() * Math.PI * 2;
+      const distance = 150 + Math.random() * 250;
+      const x = Math.cos(angle) * distance;
+      const y = Math.sin(angle) * distance;
+
+      const ranbao = document.createElement('div');
+      ranbao.className = 'ranbao';
+      ranbao.textContent = '冉宝';
+      ranbao.style.left = centerX + 'px';
+      ranbao.style.top = centerY + 'px';
+      ranbao.style.color = CONFIG.colors[Math.floor(Math.random() * CONFIG.colors.length)];
+      ranbao.style.setProperty('--x', x + 'px');
+      ranbao.style.setProperty('--y', y + 'px');
+
+      container.appendChild(ranbao);
+
+      // 在文字飞行结束位置爆炸爱心
+      setTimeout(() => {
+        explodeHearts(centerX + x, centerY + y);
+        updateCount();
+        
+        // 震动反馈（如果支持）
+        if (navigator.vibrate) {
+          navigator.vibrate(50);
+        }
+      }, 2000);
+
+      // 清理元素
+      setTimeout(() => ranbao.remove(), 2600);
+    }
+
+    // 爆炸爱心效果
+    function explodeHearts(x, y) {
+      for (let i = 0; i < CONFIG.heartCount; i++) {
+        const angle = (Math.PI * 2 * i) / CONFIG.heartCount + Math.random() * 0.5;
+        const vel = 60 + Math.random() * 100;
+        const hx = Math.cos(angle) * vel;
+        const hy = Math.sin(angle) * vel;
+
+        const heart = document.createElement('div');
+        heart.className = 'heart-particle';
+        heart.textContent = CONFIG.hearts[Math.floor(Math.random() * CONFIG.hearts.length)];
+        heart.style.left = x + 'px';
+        heart.style.top = y + 'px';
+        heart.style.setProperty('--hx', hx + 'px');
+        heart.style.setProperty('--hy', hy + 'px');
+
+        container.appendChild(heart);
+        setTimeout(() => heart.remove(), 1200);
+      }
+
+      // 添加闪光效果
+      for (let i = 0; i < 8; i++) {
+        setTimeout(() => {
+          const sparkle = document.createElement('div');
+          sparkle.className = 'sparkle';
+          sparkle.style.left = (x + (Math.random() - 0.5) * 100) + 'px';
+          sparkle.style.top = (y + (Math.random() - 0.5) * 100) + 'px';
+          sparkle.style.background = CONFIG.colors[Math.floor(Math.random() * CONFIG.colors.length)];
+          container.appendChild(sparkle);
+          setTimeout(() => sparkle.remove(), 800);
+        }, i * 50);
+      }
+    }
+
+    // 更新计数
+    function updateCount() {
+      kissCount++;
+      countEl.textContent = kissCount.toLocaleString();
+    }
+
+    // 自动发射
+    function autoLaunch() {
+      const rect = container.getBoundingClientRect();
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      createRanbao(centerX, centerY);
+    }
+
+    // 点击事件
+    container.addEventListener('click', (e) => {
+      if (e.target === musicBtn || musicBtn.contains(e.target)) return;
+      createRanbao(e.clientX, e.clientY);
+    });
+
+    // 触摸事件（移动端）
+    container.addEventListener('touchstart', (e) => {
+      if (e.target === musicBtn || musicBtn.contains(e.target)) return;
+      const touch = e.touches[0];
+      createRanbao(touch.clientX, touch.clientY);
+    }, { passive: true });
+
+    // 音乐控制
+    musicBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      
+      if (!audio) {
+        audio = new Audio('https://cdn.jsdelivr.net/gh/muzuiku/sweet@master/ai-ni.mp3');
+        audio.loop = true;
+        audio.volume = 0.6;
+      }
+
+      if (isPlaying) {
+        audio.pause();
+        musicBtn.textContent = '🎵';
+        musicBtn.classList.remove('playing');
+      } else {
+        audio.play().catch(() => {
+          // 某些浏览器需要用户交互才能播放
+          console.log('请点击播放音乐');
+        });
+        musicBtn.textContent = '🎶';
+        musicBtn.classList.add('playing');
+      }
+      isPlaying = !isPlaying;
+    });
+
+    // 初始化
+    function init() {
+      createBgHearts();
+      
+      // 启动自动发射
+      autoTimer = setInterval(autoLaunch, CONFIG.autoInterval);
+      
+      // 初始发射几个
+      setTimeout(() => autoLaunch(), 100);
+      setTimeout(() => autoLaunch(), 400);
+      setTimeout(() => autoLaunch(), 700);
+    }
+
+    // 页面可见性变化时暂停/恢复
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        clearInterval(autoTimer);
+        if (audio && isPlaying) audio.pause();
+      } else {
+        autoTimer = setInterval(autoLaunch, CONFIG.autoInterval);
+        if (audio && isPlaying) audio.play();
+      }
+    });
+
+    // 启动
+    init();
+  </script>
+</body>
+</html>
